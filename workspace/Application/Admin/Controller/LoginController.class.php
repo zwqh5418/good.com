@@ -8,7 +8,9 @@ use Think\Controller;
 class LoginController extends Controller {
 
     public function index(){
-
+         if(session('adminUer')){
+             $this->redirect('/index.php?m=admin&c=index');
+         }
     	return $this->display();
     }
     
@@ -24,6 +26,24 @@ class LoginController extends Controller {
             return show (0,'密码不能为空');
             
         }
+        
+        $ret= D('Admin')->getAdminByUsername($username);
+       // print_r($ret);调试是否从数据库获得数据
+       if(!$ret){
+           return show(0,'该用户不存在');
+       }
+       
+       if($ret['password'] !=getMd5Password($password)){
+           return show(0,'密码错误');
+       }
+       session('adminUser',$ret);
+       return show(1,'登陆成功');
+    }
+    
+    //退出登陆
+    public function loginout(){
+        session('adminUser',null);
+        $this->redirect('/index.php?m=admin&c=login$a=index');
     }
     
 }

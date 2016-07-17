@@ -39,7 +39,7 @@ class CommonController extends Controller {
 	 */
 	public function isLogin() {
 		$user = $this->getLoginUser();
-		if($user && is_array($user)) {
+		if($user && is_array($user) ) {
 			return true;
 		}
 
