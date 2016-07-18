@@ -43,6 +43,7 @@
 <div id="wrapper">
 
     <!-- Navigation -->
+
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
@@ -73,10 +74,10 @@
       <li >
         <a href=""><i class="fa fa-fw fa-dashboard"></i> 首页</a>
       </li>
-      <li>
+    <?php if(is_array($navs)): $i = 0; $__LIST__ = $navs;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$nav): $mod = ($i % 2 );++$i;?><li>
         <a href="admin.php?c=menu"><i class="fa fa-fw fa-bar-chart-o"></i>菜单管理</a>
-      </li>
-
+      </li><?php endforeach; endif; else: echo "" ;endif; ?>
+    
     </ul>
   </div>
   <!-- /.navbar-collapse -->

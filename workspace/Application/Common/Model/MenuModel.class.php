@@ -19,7 +19,7 @@ class MenuModel extends Model{
      public function getMenus($data,$page,$pageSize = 10){
          $data['status']= array('neq',-1);
          $offset =($page-1)*$pageSize;
-         $list = $this->_db->where($data)->order('menu_id desc')->limit($offset,$pageSize)->select();
+         $list = $this->_db->where($data)->order('listorder desc , menu_id desc')->limit($offset,$pageSize)->select();
          return $list;
      }
      public function getMenusCount($data = array()){
@@ -43,7 +43,7 @@ class MenuModel extends Model{
          }
          return $this->_db->where('menu_id='.$id)->save($data);
      }
-     
+    
     public function updateStatusById($id,$status){
         if(!is_numeric($id) || !$id){
             throw_exception("ID不合法");
@@ -54,5 +54,23 @@ class MenuModel extends Model{
         $data['status']=$status;
         return $this->_db->where('menu_id='.$id)->save($data);
     } 
+
+    public function getAdminMenus(){
+       $data = array(
+           'status' => array('neq',-1),
+           'type' => 1,
+           );
+        return $this->_db->where($data)->order('listorder desc,menu_id desc')->select();
+   }  
+   
+   public function updateMenuListorderById($id,$listorder){
+       if(!$id || !is_numeric($id)){
+           throw_exception('ID不合法');
+       }
+       $data= array(
+           'listorder' => intval($listorder),
+           );
+           return $this->_db->where('menu_id='.$id)->save($data);
+   }
     
 }

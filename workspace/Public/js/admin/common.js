@@ -90,3 +90,28 @@ function todelete(url, data){
        ,"JSON");
     
 }
+
+
+$("#button-listorder").click(function(){
+    var data = $("#singcms-listorder").serializeArray();
+    //console.log(data);
+    postData={};
+    $(data).each(function(i){
+       postData[this.name]=this.value; 
+    });
+    //console.log(postData);
+    //将数据post给服务器
+    url = SCOPE.listorder_url;//跳转添加
+    //jump_url = SCOPE.jump_url;
+    $.post(url,postData,function(result){
+        if(result.status == 1){
+            //成功
+            return dialog.success(result.message,result['data']['jump_url']) ;
+        }else if(result.status == 0){
+            //失败
+          return dialog.error(result.message,result['data']['jump_url']) ;
+            
+        }
+        
+    },"JSON");
+});
