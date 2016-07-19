@@ -1,8 +1,87 @@
-<include file="Index/header" />
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>sing后台管理平台</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="/Public/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/Public/css/sb-admin.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="/Public/css/plugins/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/Public/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/Public/css/sing/common.css" />
+    <link rel="stylesheet" href="/Public/css/party/bootstrap-switch.css" />
+    <link rel="stylesheet" type="text/css" href="/Public/css/party/uploadify.css">
+
+    <!-- jQuery -->
+    <script src="/Public/js/jquery.js"></script>
+    <script src="/Public/js/bootstrap.min.js"></script>
+    <script src="/Public/js/dialog/layer.js"></script>
+    <script src="/Public/js/dialog.js"></script>
+    <script type="text/javascript" src="/Public/js/party/jquery.uploadify.js"></script>
+
+</head>
+
+    
+
+
+
 <body>
 <div id="wrapper">
 
-  <include file="Index/nav"/>
+  <?php
+$navs = D("Menu")->getAdminMenus(); $index = 'index'; ?>
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    
+    <a class="navbar-brand" >singcms内容管理平台</a>
+  </div>
+  <!-- Top Menu Items -->
+  <ul class="nav navbar-right top-nav">
+    
+    
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="/admin.php?c=admin&a=personal"><i class="fa fa-fw fa-user"></i> 个人中心</a>
+        </li>
+       
+        <li class="divider"></li>
+        <li>
+          <a href="/index.php?m=admin&c=login"><i class="fa fa-fw fa-power-off"></i> 退出</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav side-nav nav_list">
+      <li <?php echo (getActive($index)); ?>>
+        <a href="admin.php"><i class="fa fa-fw fa-dashboard"></i> 首页</a>
+      </li>
+    <?php if(is_array($navs)): $i = 0; $__LIST__ = $navs;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$nav): $mod = ($i % 2 );++$i;?><li <?php echo (getActive($nav["c"])); ?>>
+        <a href="<?php echo (getAdminMenuUrl($nav )); ?>"><i class="fa fa-fw fa-bar-chart-o"></i><?php echo ($nav["name"]); ?></a>
+      </li><?php endforeach; endif; else: echo "" ;endif; ?>
+    
+    </ul>
+  </div>
+  <!-- /.navbar-collapse -->
+</nav>
   <div id="page-wrapper">
 
     <div class="container-fluid" >
@@ -32,9 +111,7 @@
               <span class="input-group-addon">栏目</span>
               <select class="form-control" name="catid">
                 <option value='' >全部分类</option>
-                <foreach name = "webSiteMenu" item ="sitenav">
-                <option value="{$sitenav.menu_id}" >{$sitenav.name}</option>
-                </foreach>
+                <?php if(is_array($webSiteMenu)): foreach($webSiteMenu as $key=>$sitenav): ?><option value="<?php echo ($sitenav["menu_id"]); ?>" ><?php echo ($sitenav["name"]); ?></option><?php endforeach; endif; ?>
               </select>
             </div>
           </div>
@@ -73,7 +150,7 @@
                 <tbody>
                 
                   <tr>
-                    <td><input type="checkbox" name="pushcheck" value="{$new.news_id}"></td>
+                    <td><input type="checkbox" name="pushcheck" value="<?php echo ($new["news_id"]); ?>"></td>
                     <td><input size=4 type='text'  name='' value=""/></td><!--6.7-->
                     <td></td>
                     <td></td>
@@ -131,4 +208,10 @@
     'push_url' : '/admin.php?c=content&a=push',
   }
 </script>
-<include file="Index/footer" />
+<script src="/Public/js/admin/common.js"></script>
+
+
+
+</body>
+
+</html>

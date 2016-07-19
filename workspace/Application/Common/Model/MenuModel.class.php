@@ -73,4 +73,13 @@ class MenuModel extends Model{
            return $this->_db->where('menu_id='.$id)->save($data);
    }
     
+    //获取前端导航
+    public function getBarMenus(){
+        $data = array(
+            'status' => array('neq',-1),
+            'type' => 0,
+            );
+    $res = $this->_db->where($data)->order('listorder desc,menu_id desc')->select();
+    return $res;
+    }
 }
