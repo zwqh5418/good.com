@@ -58,7 +58,7 @@ class MenuController extends CommonController{
         
         
         $res = new \Think\Page($menusCount,$pageSize);
-        print_r($res);
+       // print_r($res);
         $pageRes= $res->show();
         $this->assign('pageRes',$pageRes);
         $this->assign('menus',$menus);
