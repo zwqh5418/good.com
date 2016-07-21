@@ -68,7 +68,7 @@ class MenuController extends CommonController{
     public function edit(){
         $menuId = $_GET['id'];
         $menu = D("Menu")->find($menuId);
-        print_r($menu);
+        //print_r($menu);exit();
         $this->assign('menu',$menu);
         $this->display();
     }

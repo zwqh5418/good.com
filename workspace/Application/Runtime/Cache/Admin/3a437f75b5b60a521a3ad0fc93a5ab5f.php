@@ -135,13 +135,8 @@ $navs = D("Menu")->getAdminMenus(); $index = 'index'; ?>
               <table class="table table-bordered table-hover singcms-table">
                 <thead>
                 <tr>
-                  <th id="singcms-checkbox" width="10" ><input type="checkbox"/></th>
-                  <th> 排序</th>
                   <th>id</th>
-                  <th>标题</th>
-                  <th>栏目</th>
-                  <th>来源</th>
-                  <th>封面图</th>
+                  <th>推荐位名称</th>
                   <th>时间</th>
                   <th>状态</th>
                   <th>操作</th>
@@ -149,13 +144,10 @@ $navs = D("Menu")->getAdminMenus(); $index = 'index'; ?>
                 </thead>
                 <tbody>
                 	<?php if(is_array($news)): $i = 0; $__LIST__ = $news;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$new): $mod = ($i % 2 );++$i;?><tr>
-                   	<td><input type="checkbox" name="pushcheck" value="<?php echo ($new["news_id"]); ?>"></td>			
-  					<td> <input width="4" size =4 type="text" name='listorder[<?php echo ($new["news_id"]); ?>]' value="<?php echo ($new["listorder"]); ?>"></td>	             
+                            
                     <td><?php echo ($new["news_id"]); ?></td>
                     <td><?php echo ($new["title"]); ?></td>
                     <td><?php echo (getCatName($webSiteMenu,$new["catid"])); ?></td>
-                    <td><?php echo (getCopyFromById($new["copyfrom"])); ?></td>
-                    <td><?php echo (isThumb($new["thumb"])); ?></td>
                     <td><?php echo (date("Y-m-d H:i" ,$new["create_time"])); ?></td>
                    
                     <td><span  attr-status="<?php if($new['status'] == 1): ?>0<?php else: ?>1<?php endif; ?>"  attr-id="<?php echo ($new["news_id"]); ?>" class="sing_cursor singcms-on-off" id="singcms-on-off" ><?php echo (status($new["status"])); ?></span></td>
@@ -175,16 +167,9 @@ $navs = D("Menu")->getAdminMenus(); $index = 'index'; ?>
               </ul>
 
             </nav>
-            <div>    <button  id="button-listorder" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 更新排序</button></div>
-              
+            
             </form>
-			<div class="input-group">
-            <select class = "form-control" name="position_id" id="select-push">
-            	<option value="0">请选择推荐位进行送</option>
-                <?php if(is_array($positions)): foreach($positions as $key=>$position): ?><option value="<?php echo ($position["id"]); ?>"><?php echo ($position["name"]); ?></option><?php endforeach; endif; ?>		
-            </select>
-            <button id ="singcms-push" type="button" class="btn btn-primary">推送</button>
-            </div>
+			
           </div>
         </div>
 

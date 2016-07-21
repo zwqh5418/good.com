@@ -142,3 +142,34 @@ $('.singcms-table #singcms-on-off').on('click',function(){
     });
     
 });
+
+//推送
+$("#singcms-push").click(function(){
+	var id = $("#select-push").val();
+	//alert(id);测试
+	if(id==0){
+		return dialog.error("请选择推荐位");
+		}
+		push = {};
+		postData = {};
+		$("input[name = 'pushcheck']:checked").each(function(i){
+			push[i]=$(this).val();
+			});
+			postData['push']=push;
+			postData['position_id']=id;
+			//测试有无获取到的推送数据
+			//console.log(postData);return;
+			var url = SCOPE.push_url;
+			$.post(url,postData,function(result){
+					if(result.status ==1){
+						//-------
+						return dialog.success(result.message,result['data']['jump_url']);
+						}
+					if(result.status ==0){
+						//----
+						 return dialog.error(result.message) ;
+						}
+				},"JSON");
+	});
+//修改状态
+	

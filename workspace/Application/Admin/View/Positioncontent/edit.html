@@ -30,7 +30,7 @@
 					<div class="form-group">
 						<label for="inputname" class="col-sm-2 control-label">标题:</label>
 						<div class="col-sm-5">
-							<input type="text" name="title" class="form-control" id="inputname" placeholder="请填写标题">
+							<input type="text" name="title" class="form-control" id="inputname" placeholder="请填写标题" value="{$vo.title}">
 						</div>
 					</div>
 					<div class="form-group">
@@ -38,7 +38,7 @@
 						<div class="col-sm-5">
 							<select class="form-control" name="position_id">
 								<foreach name="positions" item="position">
-									<option value="{$position.id}">{$position.name}</option>
+									<option value="{$position.id}" <if condition ="$position['id'] eq $vo['position_id']">selected="selected"</if>>{$position.name}</option>
                                  </foreach>
 							</select>
 						</div>
@@ -48,21 +48,21 @@
 						<label for="inputname" class="col-sm-2 control-label">缩图:</label>
 						<div class="col-sm-5">
 							<input id="file_upload"  type="file" multiple >
-							<img style="display: none" id="upload_org_code_img" src="" width="150" height="150">
-							<input id="file_upload_image" name="thumb" type="hidden" multiple value="">
+							<img style="display: none" id="upload_org_code_img" src="{$vo.thumb}" width="150" height="150">
+							<input id="file_upload_image" name="thumb" type="hidden" multiple value="{$vo.thumb}">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="inputPassword3" class="col-sm-2 control-label">url:</label>
 						<div class="col-sm-5">
-							<input type="text" class="form-control" name="url" id="inputPassword3" placeholder="请url地址">
+							<input type="text" class="form-control" name="url" id="inputPassword3" value="{$vo.url}"  placeholder="请url地址">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="inputname" class="col-sm-2 control-label">文章id:</label>
 						<div class="col-sm-5">
-							<input type="text" name="news_id" class="form-control" id="inputname" placeholder="如果和文章无关联的可以不添加文章id">
+							<input type="text" name="id" class="form-control" id="inputname" value="{$vo.id}" >
 						</div>
 					</div>
 					<div class="form-group">
@@ -73,7 +73,7 @@
 					</div>
 
 				</div>
-
+					<input type="hidden" name="id" value="{$vo.id}"/>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
 							<button type="button" class="btn btn-default" id="singcms-button-submit">提交</button>
@@ -100,6 +100,10 @@
 		'ajax_upload_image_url' : '/admin.php?c=image&a=ajaxuploadimage',
 		'ajax_upload_swf' : '/Public/js/party/uploadify.swf'
 	};
+	var thumb ="{$vo.thumb}";
+	if(thumb){
+		$("#upload_org_code_img").show();
+		}
 </script>
 <!-- /#wrapper -->
 <script type="text/javascript" src="/Public/js/admin/form.js"></script>
