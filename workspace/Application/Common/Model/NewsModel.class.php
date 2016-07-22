@@ -17,6 +17,17 @@ class NewsModel extends Model{
         $data['username']=getLoginUsername();
         return $this->_db->add($data);
     }
+	 public function select($data = array(),$limit=0){
+	   if ($data['title']){
+		   $data['title']= array('like','%'.$data['title'].'%');
+		   }
+		$this->_db->where($data)->order('listorder desc');
+		if($limit){
+			$this->_db->limit($limit);
+			}
+			$list= $this->_db->select();
+			return $list;
+	   }
 	
 	public function getNews($data,$page,$pageSize=10){
 		$conditions =$data;
@@ -52,11 +63,7 @@ class NewsModel extends Model{
         		 }
 			$data = $this->_db->where('news_id='.$id)->find();
 			return $data;
-		}
-		
-		
-	
-		
+		}	
 		public function updateById($id,$data){
 			if(!$id || !is_numeric($id)){
 				throw_exception('ID不合法');
@@ -96,4 +103,11 @@ class NewsModel extends Model{
 		
 	return $this->_db->where($data)->select();
 		}
+		
+		public function getRank($data =array(),$limit = 100){
+			$list =$this->_db->where($data)->order('count desc, news_id desc')->select();
+			return $list;
+			}
+		
+			
 }

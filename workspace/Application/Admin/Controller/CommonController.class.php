@@ -95,5 +95,6 @@ public function setStatus($data,$models){
 			return show(0,'排序失败',array('jump_url'=>$jumpUrl));
 	}
 	
+	
 
 }
