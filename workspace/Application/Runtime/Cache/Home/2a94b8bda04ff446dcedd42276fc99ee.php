@@ -22,7 +22,7 @@ $config =D("Basic")->select(); $navs =D("Menu")->getBarMenus(); ?>
       </div>
       <ul class="nav navbar-nav navbar-left">
         <li><a href="/" <?php if($vo['catId'] == 0): ?>class="curr"<?php endif; ?>>首页</a></li>
-       <?php if(is_array($navs)): foreach($navs as $key=>$vo): ?><li><a href="/index?c=cat&id=<?php echo ($vo["menu_id"]); ?>" <?php if($vo['menu_id'] == $result['catid']): ?>class="curr"<?php endif; ?>><?php echo ($vo["name"]); ?></a></li><?php endforeach; endif; ?>
+       <?php if(is_array($navs)): foreach($navs as $key=>$vo): ?><li><a href="/index.php?c=cat&id=<?php echo ($vo["menu_id"]); ?>" <?php if($vo['menu_id'] == $result['catId']): ?>class="curr"<?php endif; ?>><?php echo ($vo["name"]); ?></a></li><?php endforeach; endif; ?>
       </ul>
     </div>
   </div>
@@ -33,14 +33,14 @@ $config =D("Basic")->select(); $navs =D("Menu")->getBarMenus(); ?>
       <div class="col-sm-9 col-md-9">
         <div class="banner">
           <div class="banner-left">
-         
+             <div class="banner-info"><span>阅读数</span><i class="news_count node-<?php echo ($result['topPicNews'][0]['news_id']); ?>" news-id="<?php echo ($result['topPicNews'][0]['news_id']); ?>"></i></div>
             <a target="_bank" href = "/index.php?c=detail&$id=<?php echo ($result['topPicNews'][0]['news_id']); ?>"><img  width ="670" height="360"src="<?php echo ($result['topPicNews'][0]['thumb']); ?>" alt=""></a>
-            
-          </div>
+            </div>
+         
           <div class="banner-right"> 
             <ul>
             <?php if(is_array($result['topSmailNews'])): $i = 0; $__LIST__ = $result['topSmailNews'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><li>
-                <a target="_bank" href = "/index.php?c=detail&$id=<?php echo ($vo["news_id"]); ?>"><img width ="150" height="113" src="<?php echo ($vo["thumb"]); ?>" alt="<?php echo ($vo["title"]); ?>"></a>
+                <a target="_bank" href = "/index.php?c=detail&id=<?php echo ($vo["news_id"]); ?>"><img width ="150" height="113" src="<?php echo ($vo["thumb"]); ?>" alt="<?php echo ($vo["title"]); ?>"></a>
               </li><?php endforeach; endif; else: echo "" ;endif; ?>
             </ul>
           </div>
@@ -54,7 +54,7 @@ $config =D("Basic")->select(); $navs =D("Menu")->getBarMenus(); ?>
               <?php echo ($vo["description"]); ?>
             </dd>
             <dd class="news-info">
-              <?php echo ($vo["keywords"]); ?> <span><?php echo (date("Y-m-d H:i:s",$vo["create_time"])); ?></span> 阅读(0)
+              <?php echo ($vo["keywords"]); ?> <span><?php echo (date("Y-m-d H:i:s",$vo["create_time"])); ?></span> 阅读(<i  news-id="<?php echo ($vo["news_id"]); ?>" class="news_count node-<?php echo ($vo["news_id"]); ?>"><?php echo ($vo["count"]); ?></i>)
             </dd>
           </dl><?php endforeach; endif; else: echo "" ;endif; ?>
          
@@ -69,11 +69,11 @@ $config =D("Basic")->select(); $navs =D("Menu")->getBarMenus(); ?>
         <div class="right-content">
           <ul>
           <?php if(is_array($result['rankNews'])): $k = 0; $__LIST__ = $result['rankNews'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($k % 2 );++$k;?><li class="num<?php echo ($k); ?> curr">
-              <a target="_blank" href="/index.php?c=detail$id=<?php echo ($vo["news_id"]); ?>"><?php echo ($vo["small_title"]); ?></a>
+              <a target="_blank" href = "/index.php?c=detail&$id=<?php echo ($vo["news_id"]); ?>"><?php echo ($vo["small_title"]); ?></a>
               <?php if($k == 1): ?><div class="intro">
                 <?php echo ($vo["description"]); ?>
               </div><?php endif; ?>
-            </li><?php endforeach; endif; else: echo "" ;endif; ?>
+           </li><?php endforeach; endif; else: echo "" ;endif; ?>
           </ul>
         </div>
         <?php if(is_array($result['advNews'])): $k = 0; $__LIST__ = $result['advNews'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($k % 2 );++$k;?><div class="right-hot">
@@ -84,4 +84,6 @@ $config =D("Basic")->select(); $navs =D("Menu")->getBarMenus(); ?>
   </div>
 </section>
 </body>
+<script src="/Public/js/jquery.js"></script>
+<script src="/Public/js/count.js"></script>
 </html>

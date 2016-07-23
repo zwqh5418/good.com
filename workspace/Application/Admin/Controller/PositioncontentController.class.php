@@ -49,7 +49,6 @@ class PositioncontentController extends CommonController{
 						 return $this->save($_POST);
 						 }
 					 
-					 
 					 try{
 						 $id =D("PositionContent")->insert($_POST);
 						      if($id){
@@ -102,31 +101,7 @@ class PositioncontentController extends CommonController{
 				return parent::setStatus($data,'PositionContent');
 				}
 		
-		/*
-		public function setStatus(){
-			try{
-			if($_POST){
-				$id = $_POST['id'];
-				$status = $_POST['status'];
-				
-				//print_r($status);exit();
-				if(!$id){
-					return show(0,'ID不存在');
-					}
-				$res =D("PositionContent")->updateStatusById($id,$status);
-				if ($res){
-					return show(1,'操作成功');
-					}else
-					{
-					return show(0,'操作失败');
-						}
-				}
-				return show(0,'没有提交的内容');
-			}catch(Exception $e){
-				return show(0,$e->getMessage());
-				}
-			}
-		*/
+		
 		
 		public function listorder(){
 			return parent::listorder("PositionContent");

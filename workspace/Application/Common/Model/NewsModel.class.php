@@ -92,7 +92,7 @@ class NewsModel extends Model{
 				$data =array('listorder'=>intval($listorder));
 				return $this->_db->where('news_id='.$id)->save($data);
 			}
-		//推荐位
+		//推荐位          
 		public function getNewsByNewsIdIn($newsIds){
 		if(!is_array($newsIds)){
 			throw_exception("参数不合法");
@@ -101,12 +101,29 @@ class NewsModel extends Model{
 		'news_id'=>array('in',implode(',',$newsIds)),
 		);
 		
-	return $this->_db->where($data)->select();
+		return $this->_db->where($data)->select();
 		}
 		
 		public function getRank($data =array(),$limit = 100){
 			$list =$this->_db->where($data)->order('count desc, news_id desc')->select();
 			return $list;
+			} 
+		public function updateCount($id,$count){
+			if(!$id || !is_numeric($id)){
+				throw_exception("ID不合法");
+				}
+			if(!is_numeric($count)){
+				throw_exception("Count不能为非数字");
+				}
+			$data['count']=$count;
+			return $this->_db->where('news_id='.$id)->save($data);
+			
+			}
+		public function maxcount(){
+			$data=array(
+				'status'=>1,
+			);
+			return $this->_db->where($data)->order('count desc')->limit(1)->find();
 			}
 		
 			

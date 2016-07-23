@@ -42,7 +42,7 @@
 <div id="wrapper">
 
   <?php
-$navs = D("Menu")->getAdminMenus(); $index = 'index'; ?>
+$navs = D("Menu")->getAdminMenus(); $username=getLoginUsername(); foreach($navs as $k=>$v){ if($v['c'] =='admin' && $username !='admin'){ unset($navs[$k]); } } $index = 'index'; ?>
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <!-- Brand and toggle get grouped for better mobile display -->
@@ -55,7 +55,7 @@ $navs = D("Menu")->getAdminMenus(); $index = 'index'; ?>
     
     
     <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"><?php echo getLoginUsername() ?></i><b class="caret"></b></a>
       <ul class="dropdown-menu">
         <li>
           <a href="/admin.php?c=admin&a=personal"><i class="fa fa-fw fa-user"></i> 个人中心</a>
@@ -92,18 +92,16 @@ $navs = D("Menu")->getAdminMenus(); $index = 'index'; ?>
 
           <ol class="breadcrumb">
             <li>
-              <i class="fa fa-dashboard"></i>  <a href="/admin.php?c=content">文章管理</a>
+              <i class="fa fa-dashboard"></i>  <a href="/admin.php?c=position">推荐位管理</a>
             </li>
             <li class="active">
-              <i class="fa fa-table"></i>文章列表
+              <i class="fa fa-table"></i>推荐位列表
             </li>
           </ol>
         </div>
       </div>
       <!-- /.row -->
-      <div >
-        <button  id="button-add" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加 </button>
-      </div>
+    
       <div class="row">
         <form action="/admin.php" method="get">
           <div class="col-md-3">
@@ -111,7 +109,7 @@ $navs = D("Menu")->getAdminMenus(); $index = 'index'; ?>
               <span class="input-group-addon">栏目</span>
               <select class="form-control" name="catid">
                 <option value='' >全部分类</option>
-                <?php if(is_array($webSiteMenu)): foreach($webSiteMenu as $key=>$sitenav): ?><option value="<?php echo ($sitenav["menu_id"]); ?>" ><?php echo ($sitenav["name"]); ?></option><?php endforeach; endif; ?>
+                <?php if(is_array($positions)): foreach($positions as $key=>$sitenav): ?><option value="<?php echo ($sitenav["id"]); ?>" ><?php echo ($sitenav["name"]); ?></option><?php endforeach; endif; ?>
               </select>
             </div>
           </div>
@@ -127,6 +125,9 @@ $navs = D("Menu")->getAdminMenus(); $index = 'index'; ?>
           </div>
         </form>
       </div>
+    <div >
+            <button url="/admin.php?c=position&a=add" id="button-add" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加 </button>
+    </div>
       <div class="row">
         <div class="col-lg-6">
           <h3></h3>
@@ -143,16 +144,15 @@ $navs = D("Menu")->getAdminMenus(); $index = 'index'; ?>
                 </tr>
                 </thead>
                 <tbody>
-                	<?php if(is_array($news)): $i = 0; $__LIST__ = $news;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$new): $mod = ($i % 2 );++$i;?><tr>
+                	<?php if(is_array($positions)): $i = 0; $__LIST__ = $positions;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$position): $mod = ($i % 2 );++$i;?><tr>
                             
-                    <td><?php echo ($new["news_id"]); ?></td>
-                    <td><?php echo ($new["title"]); ?></td>
-                    <td><?php echo (getCatName($webSiteMenu,$new["catid"])); ?></td>
-                    <td><?php echo (date("Y-m-d H:i" ,$new["create_time"])); ?></td>
+                    <td><?php echo ($position["id"]); ?></td>
+                    <td><?php echo ($position["name"]); ?></td>
+                    <td><?php echo (date("Y-m-d H:i" ,$position["create_time"])); ?></td>
                    
-                    <td><span  attr-status="<?php if($new['status'] == 1): ?>0<?php else: ?>1<?php endif; ?>"  attr-id="<?php echo ($new["news_id"]); ?>" class="sing_cursor singcms-on-off" id="singcms-on-off" ><?php echo (status($new["status"])); ?></span></td>
+                    <td><span  attr-status="<?php if($new['status'] == 1): ?>0<?php else: ?>1<?php endif; ?>"  attr-id="<?php echo ($new["news_id"]); ?>" class="sing_cursor singcms-on-off" id="singcms-on-off" ><?php echo (status($position["status"])); ?></span></td>
                     <td><span class="sing_cursor glyphicon glyphicon-edit" aria-hidden="true" id="singcms-edit" attr-id="<?php echo ($new["news_id"]); ?>" ></span>
-                      <a href="javascript:void(0)" id="singcms-delete"  attr-id="<?php echo ($new["news_id"]); ?>"  attr-message="删除">
+                      <a href="javascript:void(0)" id="singcms-delete"  attr-id="<?php echo ($position["id"]); ?>"  attr-message="删除">
                         <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
                       </a>
 
@@ -187,15 +187,15 @@ $navs = D("Menu")->getAdminMenus(); $index = 'index'; ?>
 </div>
 <!-- /#wrapper -->
 <script>
-  var SCOPE = {
-    'edit_url' : '/admin.php?c=content&a=edit',
-    'add_url' : '/admin.php?c=content&a=add',
-    'set_status_url' : '/admin.php?c=content&a=setStatus',
-	
-    'sing_news_view_url' : '/index.php?c=view',
-    'listorder_url' : '/admin.php?c=content&a=listorder',
-    'push_url' : '/admin.php?c=content&a=push',
-  }
+    var SCOPE = {
+        'edit_url' : '/admin.php?c=position&a=edit',
+        'set_status_url' : '/admin.php?c=position&a=setStatus',
+        'add_url' : '/admin.php?c=position&a=add',
+    }
+    $(".singcms-table #sing-add-position-content").on('click',function(){
+        var id = $(this).attr('attr-id');
+        window.location.href='/admin.php?c=positioncontent&a=index&position_id='+id;
+    });
 </script>
 <script src="/Public/js/admin/common.js"></script>
 

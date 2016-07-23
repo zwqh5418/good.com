@@ -42,7 +42,7 @@
 <div id="wrapper">
 
   <?php
-$navs = D("Menu")->getAdminMenus(); $index = 'index'; ?>
+$navs = D("Menu")->getAdminMenus(); $username=getLoginUsername(); foreach($navs as $k=>$v){ if($v['c'] =='admin' && $username !='admin'){ unset($navs[$k]); } } $index = 'index'; ?>
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <!-- Brand and toggle get grouped for better mobile display -->
@@ -55,7 +55,7 @@ $navs = D("Menu")->getAdminMenus(); $index = 'index'; ?>
     
     
     <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"><?php echo getLoginUsername() ?></i><b class="caret"></b></a>
       <ul class="dropdown-menu">
         <li>
           <a href="/admin.php?c=admin&a=personal"><i class="fa fa-fw fa-user"></i> 个人中心</a>
@@ -161,9 +161,10 @@ $navs = D("Menu")->getAdminMenus(); $index = 'index'; ?>
                     <td><span  attr-status="<?php if($new['status'] == 1): ?>0<?php else: ?>1<?php endif; ?>"  attr-id="<?php echo ($new["news_id"]); ?>" class="sing_cursor singcms-on-off" id="singcms-on-off" ><?php echo (status($new["status"])); ?></span></td>
                     <td><span class="sing_cursor glyphicon glyphicon-edit" aria-hidden="true" id="singcms-edit" attr-id="<?php echo ($new["news_id"]); ?>" ></span>
                       <a href="javascript:void(0)" id="singcms-delete"  attr-id="<?php echo ($new["news_id"]); ?>"  attr-message="删除">
-                        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>		
+                   
                       </a>
-
+					<a target="_blank" href="/index.php?c=detail&a=view&$id=<?php echo ($new["news_id"]); ?>" class="sing_cursor glyphicon glyphicon-eye-open" aria-hidden="true"  ></a>
                     </td>
                   </tr><?php endforeach; endif; else: echo "" ;endif; ?> 
                 </tbody>

@@ -8,6 +8,7 @@ return array(
     'DB_NAME' => 'imooc_singcms',
     'DB_CHARSET' => 'utf8',
     'DB_PREFIX' => 'cms_',
+	
     
     );
 ?>

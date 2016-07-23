@@ -29,13 +29,15 @@ class LoginController extends Controller {
         
         $ret= D('Admin')->getAdminByUsername($username);
        // print_r($ret);调试是否从数据库获得数据
-       if(!$ret){
+       if(!$ret || $ret['status']!=1){
            return show(0,'该用户不存在');
        }
        
        if($ret['password'] !=getMd5Password($password)){
            return show(0,'密码错误');
        }
+	   
+	   D("Admin")->updateByAdminId($ret['admin_id'],array('lastlogintime'=>time()));
        session('adminUser',$ret);
        return show(1,'登陆成功');
     }
