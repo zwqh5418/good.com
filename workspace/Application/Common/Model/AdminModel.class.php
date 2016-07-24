@@ -58,5 +58,34 @@ class AdminModel  extends Model{
 		$res= $this->_db->where($data)->count();
 		return $res ['tp_count'];
 		}
+	//-------------
+	 public function getAdmin($data,$page,$pageSize=10){
+		 if(isset($data['username'])&& $data['username']){
+			$conditions['username'] =array('like','%'.$data['username'].'%');
+			}
+		 if(isset($data['realname'])&& $data['realname']){
+			$conditions['realname'] =array('like','%'.$data['realname'].'%');
+			}
+			$conditions =$data;
+			$conditions ['status'] = array('neq',-1);
+			$offset =($page-1)*$pageSize;
+			$list= $this->_db->where($conditions)
+			->order('admin_id desc')
+			->limit($offset,$pageSize)
+			->select();
+			//print_r($list);
+			return $list;
+		}
+		            
+	public function getAdminCount($data = array()){
+		 if(isset($data['username'])&& $data['username']){
+			$conditions['username'] =array('like','%'.$data['username'].'%');
+			}
+		 if(isset($data['realname'])&& $data['realname']){
+			$conditions['realname'] =array('like','%'.$data['realname'].'%');
+			}
+			$conditions =$data;
+			return $this->_db->where($conditions)->count();
+		}
 	
 }

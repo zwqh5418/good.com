@@ -104,7 +104,18 @@ $navs = D("Menu")->getAdminMenus(); $username=getLoginUsername(); foreach($navs 
             </div>
         </div>
         <!-- /.row -->
-        
+         <form action="/admin.php" method="get">
+            <input type="hidden" name="c" value="admin"/>
+            <input type="hidden" name="a" value="index"/>
+           <div class="input-group">
+              <input class="form-control" name="username" type="text" value="" placeholder="按用户名查找" />
+               
+               <input class="form-control" name="realname" type="text" value="" placeholder="按真名字查找" />
+                <span class="input-group-btn" >
+                  <button id="sub_data" type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search" ></i></button>
+                </span>
+            </div>
+           </form>
         <div>
           <button  id="button-add" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加 </button>
         </div>
@@ -138,7 +149,11 @@ $navs = D("Menu")->getAdminMenus(); $username=getLoginUsername(); foreach($navs 
                         </tbody>
                     </table>
                     </form>
-                    
+                     <nav>
+             	 <ul >
+                <?php echo ($pageres); ?>
+              </ul>
+            </nav>
                 </div>
             </div>
 

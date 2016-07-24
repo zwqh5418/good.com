@@ -55,5 +55,35 @@ class PositionModel extends Model{
 		}
 		return  $this->_db->where('id='.$id)->save($data); // 根据条件更新记录
 	}
+	//------------------------
+	public function getPosition($data,$page,$pageSize=10){
+		$conditions =$data;
+		if(isset($data['name'])&& $data['name']){
+			$conditions['name'] =array('like','%'.$data['name'].'%');
+			}
+		if(isset($data['description'])&& $data['description']){
+			$conditions['description'] =intval($data['description']);
+			}
+			$conditions ['status'] = array('neq',-1);
+			$offset =($page-1)*$pageSize;
+			$list= $this->_db->where($conditions)
+			->order('id desc')
+			->limit($offset,$pageSize)
+			->select();
+			//print_r($list);
+			return $list;
+		}
+		            
+	public function getPositionCount($data = array()){
+			$conditions =$data;
+			if(isset($data['name'])&& $data['name']){
+				$conditions['name'] =array('like','%'.$data['name'].'%');
+			}
+			if(isset($data['description'])&& $data['description']){
+				$conditions['description'] =intval($data['description']);
+			}
+			return $this->_db->where($conditions)->count();
+		}
+	//-----------------------
 }
 

@@ -106,18 +106,19 @@ $navs = D("Menu")->getAdminMenus(); $username=getLoginUsername(); foreach($navs 
         <form action="/admin.php" method="get">
           <div class="col-md-3">
             <div class="input-group">
-              <span class="input-group-addon">栏目</span>
-              <select class="form-control" name="catid">
+              <span class="input-group-addon">推荐栏目预览</span>
+              <select class="form-control" name="positions">
                 <option value='' >全部分类</option>
                 <?php if(is_array($positions)): foreach($positions as $key=>$sitenav): ?><option value="<?php echo ($sitenav["id"]); ?>" ><?php echo ($sitenav["name"]); ?></option><?php endforeach; endif; ?>
               </select>
             </div>
           </div>
-          <input type="hidden" name="c" value="content"/>
+          <input type="hidden" name="c" value="position"/>
           <input type="hidden" name="a" value="index"/>
           <div class="col-md-3">
             <div class="input-group">
-              <input class="form-control" name="title" type="text" value="" placeholder="文章标题" />
+             <span class="input-group-addon">推荐栏目搜索</span>
+              <input class="form-control" name="name" type="text" value="" placeholder="推荐位名称搜索" />
                 <span class="input-group-btn">
                   <button id="sub_data" type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>
                 </span>
@@ -150,8 +151,8 @@ $navs = D("Menu")->getAdminMenus(); $username=getLoginUsername(); foreach($navs 
                     <td><?php echo ($position["name"]); ?></td>
                     <td><?php echo (date("Y-m-d H:i" ,$position["create_time"])); ?></td>
                    
-                    <td><span  attr-status="<?php if($new['status'] == 1): ?>0<?php else: ?>1<?php endif; ?>"  attr-id="<?php echo ($new["news_id"]); ?>" class="sing_cursor singcms-on-off" id="singcms-on-off" ><?php echo (status($position["status"])); ?></span></td>
-                    <td><span class="sing_cursor glyphicon glyphicon-edit" aria-hidden="true" id="singcms-edit" attr-id="<?php echo ($new["news_id"]); ?>" ></span>
+                    <td><span  attr-status="<?php if($position['status'] == 1): ?>0<?php else: ?>1<?php endif; ?>"  attr-id="<?php echo ($position["id"]); ?>" class="sing_cursor singcms-on-off" id="singcms-on-off" ><?php echo (status($position["status"])); ?></span></td>
+                    <td><span class="sing_cursor glyphicon glyphicon-edit" aria-hidden="true" id="singcms-edit" attr-id="<?php echo ($position["id"]); ?>" ></span>
                       <a href="javascript:void(0)" id="singcms-delete"  attr-id="<?php echo ($position["id"]); ?>"  attr-message="删除">
                         <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
                       </a>
@@ -161,11 +162,9 @@ $navs = D("Menu")->getAdminMenus(); $username=getLoginUsername(); foreach($navs 
                 </tbody>
               </table>
               <nav>
-				
               <ul >
                 <?php echo ($pageres); ?>
               </ul>
-
             </nav>
             
             </form>
@@ -192,9 +191,9 @@ $navs = D("Menu")->getAdminMenus(); $username=getLoginUsername(); foreach($navs 
         'set_status_url' : '/admin.php?c=position&a=setStatus',
         'add_url' : '/admin.php?c=position&a=add',
     }
-    $(".singcms-table #sing-add-position-content").on('click',function(){
+    $(".singcms-table #sing-add-position").on('click',function(){
         var id = $(this).attr('attr-id');
-        window.location.href='/admin.php?c=positioncontent&a=index&position_id='+id;
+        window.location.href='/admin.php?c=position&a=index&position_id='+id;
     });
 </script>
 <script src="/Public/js/admin/common.js"></script>

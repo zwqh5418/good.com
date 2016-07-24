@@ -4,8 +4,36 @@ use Think\Controller;
 class PositionController extends CommonController {
     
     public function index(){
-		$data['status'] = array('neq',-1);
-        $positions = D("Position")->select($data);
+		//$data['status'] = array('neq',-1);
+        //$positionscat = D("Position")->select($data);
+		
+		//-----------
+		  $conds =array();
+	    $name = $_GET['name'];
+		if($name){
+			$conds['name']=$name;
+			}
+		 
+		if($_GET['description']){
+			$conds['description']= intval($_GET['description']);
+			}
+			
+		$page = $_REQUEST['p']?$_REQUEST['p']:1;
+		$pageSize =2;
+		 $conds ['status'] = array('neq',-1);
+		$positions = D("Position")->getPosition($conds,$page,$pageSize);
+		  //print_r($Position);exit;
+		 $count = D("Position")->getPositionCount($conds);
+	     //$res =  new \Think\Page($count,$pageSize);
+		  $res = new \Think\Page($count,$pageSize);
+		 //print_r($res);
+		 $pageres = $res->show();
+		 $this ->assign('pageres',$pageres);
+		
+		//--------------
+	
+		
+		//$this->assign('positionscat',$positionscat);
         $this->assign('positions',$positions);
         $this->assign('nav','推荐位管理');
         $this->display();

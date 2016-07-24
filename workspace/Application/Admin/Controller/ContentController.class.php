@@ -18,8 +18,9 @@ class ContentController extends CommonController
 		if($_GET['catid']){
 			$conds['catid']= intval($_GET['catid']);
 			}
+			
 		$page = $_REQUEST['p']?$_REQUEST['p']:1;
-		$pageSize =5;
+		$pageSize =3;
 		//$conds['status'] = array('neq',-1);
 		 $news = D("News")->getNews($conds,$page,$pageSize);
 		  //print_r($news);

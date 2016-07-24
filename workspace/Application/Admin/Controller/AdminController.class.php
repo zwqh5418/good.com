@@ -4,9 +4,32 @@ namespace Admin\Controller;
  use Think\Controller;
  class AdminController extends CommonController{
 	public function index(){
-		$admins= D("Admin")->getAdmins();
+		//$admins= D("Admin")->getAdmins();
 		//print_r($admins);exit();
-		$this->assign('admins',$admins);
+		//-------------
+		$conds =array();
+		
+	    $name = $_GET['username'];
+		if($name){
+			$conds['username']=$name;
+		}
+		 $name = $_GET['realname'];
+		if($name){
+			$conds['realname']=$name;
+			}
+		$page = $_REQUEST['p']?$_REQUEST['p']:1;
+		$pageSize =2;
+		 $conds ['status'] = array('neq',-1);
+		$Admins = D("Admin")->getAdmin($conds,$page,$pageSize);
+		  //print_r($Admin);exit;
+		 $count = D("Admin")->getAdminCount($conds);
+		  $res = new \Think\Page($count,$pageSize);
+		 //print_r($res);
+		 $pageres = $res->show();
+		 $this ->assign('pageres',$pageres);
+		//---------------
+		
+		$this->assign('admins',$Admins);
 		$this->display();
 		}
 public function add(){
